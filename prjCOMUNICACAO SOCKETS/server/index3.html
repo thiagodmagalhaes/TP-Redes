@@ -1,0 +1,29 @@
+<html>
+  <body>
+    <h1>TESTE</h1>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <div id="msg"></div>
+    <input type = "text"/>
+    <script>
+      const socket = io()
+      socket.on('connect', function(client){
+        $('#msg').append(' Conectado com id:' + socket.id+'<br>');
+      socket.emit('msg',' Estou conectado:  '+socket.id);
+      })
+      // COODIGO ABAIXO EXIGE MENsAGEM DO NOVO USUARIO SENDO EXEBIDO NA TELA
+      socket.on('msg',function(msg){
+        $("#msg").append(msg+'<br>')
+      })
+
+      //PEGA A MENSAGEM DO TECLADO E ENVIA PARA O SERVIDOR
+      $(function(){
+        $("input").keydown(function(key){
+          if(key.keyCode==13){
+            socket.emit('msg', $(this).val());
+          }
+        })
+      })
+    </script>
+  </body>
+</html>
